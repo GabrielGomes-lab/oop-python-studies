@@ -92,3 +92,4 @@ while True:
 
     relogio.tick(FRAMES_POR_SEGUNDO) # Controla os frames por segundo
     break 
+
