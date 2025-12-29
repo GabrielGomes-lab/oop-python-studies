@@ -164,3 +164,336 @@ while True:
         userPassword = input('Please enter the password: ')
         oAccount = accountsDict[userAccountNumber]
         theBalance = oAccount.withdraw(userWithdrawalAmount, userPassword)
+
+""" Criando um gerenciador de objetos
+    Um objeto que mantém uma lista ou dicionário de objetos gerenciados, e chama métodos desses objetos. 
+Então vamos construir
+"""
+
+from Account import *
+
+class Bank():
+
+    def __init__(self):
+        self.accountsDict = {}
+        self.nextAccountNumber = 0
+
+    def createAccount(self, theName, theStartingAmount, thePassword):
+        oAccount = Account(theName, theStartingAmount, thePassword)
+        newAccountNumber = self.nextAccountNumber
+        self.accountsDict[newAccountNumber] = oAccount
+        # Increment to prepare for next account to be created
+        self.nextAccountNumber = self.nextAccountNumber + 1
+        return newAccountNumber
+
+    def openAccount(self):
+        print('*** Open Account ***')
+        userName = input('What is the name for the new user account? ')
+        userStartingAmount = input('What is the starting balance for this account? ')
+        userStartingAmount = int(userStartingAmount)
+        userPassword = input('What password would you want to use for this account? ')
+
+        userAccountNumber = self.createAccount(userName, userStartingAmount, userPassword)
+        print('Your new account number is:', userAccountNumber)
+        print()
+
+    def closeAccount(self):
+        print('*** Close Account ***')
+        userAccountNumber = input('What is your account number? ')
+        userAccountNumber = int(userAccountNumber)
+        userPassword = input('What is your password? ')
+        oAccount = self.accountsDict[userAccountNumber]
+        theBalance = oAccount.getBalance(userPassword)
+
+        if theBalance is not None:
+            print('You had', theBalance, 'in your account, which is being returned to you.')
+            # Remove user's account from the dictioary of accounts
+            del self.accountsDict[userAccountNumber]
+            print('Your account is now closed.')
+
+    def balance(self):
+        print('*** Get Balance ***')
+        userAccountNumber = input('Please enter your account number: ')
+        userAccountNumber = int(userAccountNumber)
+        userAccountPassword = input('Please enter the password: ')
+        oAccount = self.accountsDict[userAccountNumber]
+        theBalance = oAccount.getBalance(userAccountPassword)
+        if theBalance is not None:
+            print('Your balance is:', theBalance)
+
+    def deposit(self):
+        print('*** Deposit ***')
+        accountNum = input('Please enter the account number: ')
+        accountNum = int(accountNum)
+        depositAmount = input('Please enter amount to deposit: ')
+        depositAmount = int(depositAmount)
+        userAccountPassword = input('Please enter the password: ')
+        oAccount = self.accountsDict[accountNum]        
+        theBalance = oAccount.deposit(depositAmount, userAccountPassword)
+        if theBalance is not None:
+            print('Your new balance is:', theBalance)
+
+    def show(self):
+        print('*** Show ***')
+        for userAccountNumber in self.accountsDict:
+            oAccount = self.accountsDict[userAccountNumber]
+            print('   Account number:', userAccountNumber)
+            oAccount.show()
+
+    def withdraw(self):
+        print('*** Withdraw ***')
+        userAccountNumber = input('Please enter your account number: ')
+        userAccountNumber = int(userAccountNumber)
+        userAmount = input('Please enter the amount to withdraw: ')
+        userAmount = int(userAmount)
+        userAccountPassword = input('Please enter the password: ')
+        oAccount = self.accountsDict[userAccountNumber]
+        theBalance = oAccount.withdraw(userAmount, userAccountPassword)
+        if theBalance is not None:
+            print('Withdrew:', userAmount)
+            print('Your new balance is:', theBalance)
+
+    def bankInfo(self):
+        print('Hours: 9 to 5')
+        print('Address: 123 Main Street, Anytown, USA')
+        print('Phone:  (650) 555-1212')
+        print('We currently have', len(self.accountsDict), 'account(s) open.')
+
+
+## Main code
+
+# Main program for controlling a Bank made up of Accounts
+
+# Bring in all the code of the Bank class
+from Bank import *
+
+# Create an instance of the Bank
+oBank = Bank()
+
+# Main code
+# Create two test accounts
+joesAccountNumber = oBank.createAccount('Joe', 100, 'JoesPassword')
+print("Joe's account number is:", joesAccountNumber)
+
+marysAccountNumber = oBank.createAccount('Mary', 12345, 'MarysPassword')
+print("Mary's account number is:", marysAccountNumber)
+
+while True:
+    print()
+    print('To get an account balance, press b')
+    print('To close an account, press c')
+    print('To make a deposit, press d')
+    print('To get bank information, press i')
+    print('To open a new account, press o')
+    print('To quit, press q')
+    print('To show all accounts, press s')
+    print('To make a withdrawal, press w')
+    print()
+
+    action = input('What do you want to do? ')
+    action = action.lower()
+    action = action[0]  # grab the first letter
+    print()
+    
+    if action == 'b':
+        oBank.balance()
+
+    elif action == 'c':
+        oBank.closeAccount()
+
+    elif action == 'd':
+        oBank.deposit()
+
+    elif action == 'i':
+        oBank.bankInfo()
+
+    elif action == 'o':
+        oBank.openAccount()
+
+    elif action == 's':
+        oBank.show()
+
+    elif action == 'q':
+        break
+
+    elif action == 'w':
+        oBank.withdraw()
+
+    else:
+        print('Sorry, that was not a valid action.  Please try again.')
+        
+print('Done')
+
+
+"""Melhores maneiras de trabalhar com erros
+
+No código acima, sempre que um erro ocorre, uma mensagem de erro é impressa na tela e o método retorna None. Embora isso funcione, não é a melhor maneira de lidar com erros em Python.
+
+Podemos usar o try e except para capturar exceções e lidar com erros de forma mais elegante.
+
+try:
+    # código que pode gerar uma exceção
+except SomeException as e:
+    # código para lidar com a exceção
+Se o código que está no bloco de try funcionar sem erros, não será necessário gerar uma excessão, mas se o código gerar uma exceção, o fluxo de execução será transferido para o bloco except, onde podemos lidar com o erro de forma apropriada.
+
+exemplo:
+age = input("Please enter your age: ")
+try:
+    age = int(age)
+except ValueError:
+    print("That's not a valid age. Please enter a number.")
+
+The raise statement e Custom Exceptions
+Se o seu código detectar uma condição de erro em tempo de execução, você pode usar a instrução raise para sinalizar uma exceção. Existem muitas formas de usar a instrução raise,
+mas a abordagem padrão é usar esta sintaxe:
+
+raise SomeException("Error message")
+
+"""
+
+# Account class
+# Errors indicated by "raise" statements
+
+# Define a custom exception
+class AbortTransaction(Exception):
+    '''raise this exception to abort a bank transaction'''
+    pass
+
+class Account():
+    def __init__(self, name, balance, password):
+        self.name = name
+        self.balance = self.validateAmount(balance)
+        self.password = password
+
+    def validateAmount(self, amount):
+        try:
+            amount = int(amount)
+        except ValueError:
+            raise AbortTransaction('Amount must be an integer')
+        if amount <= 0:
+            raise AbortTransaction('Amount must be positive')
+        return amount
+
+    def checkPasswordMatch(self, password):
+        if password != self.password:
+            raise AbortTransaction('Incorrect password for this account')
+
+    def deposit(self, amountToDeposit):
+        amountToDeposit = self.validateAmount(amountToDeposit)
+        self.balance = self.balance + amountToDeposit
+        return self.balance
+
+    def getBalance(self):
+        return self.balance
+        
+    def withdraw(self, amountToWithdraw):
+        amountToWithdraw = self.validateAmount(amountToWithdraw)
+        if amountToWithdraw > self.balance:
+            raise AbortTransaction('You cannot withdraw more than you have in your account')
+
+        self.balance = self.balance - amountToWithdraw
+        return self.balance
+
+    # Added for debugging
+    def show(self):
+        print('       Name:', self.name)
+        print('       Balance:', self.balance)
+        print('       Password:', self.password)
+
+# Bank that manages a dictionary of Account objects
+
+from Account import *
+
+class Bank():
+    def __init__(self, hours, address, phone):
+        self.accountsDict = {}
+        self.nextAccountNumber = 0
+        self.hours = hours
+        self.address = address
+        self.phone = phone
+
+    def askForValidAccountNumber(self):
+        accountNumber = input('What is your account number? ')
+        try:
+            accountNumber = int(accountNumber)
+        except ValueError:
+            raise AbortTransaction('The account number must be an integer')
+        if accountNumber not in self.accountsDict:
+            raise AbortTransaction('There is no account ' + str(accountNumber))
+        return accountNumber
+
+    def getUsersAccount(self):
+        accountNumber = self.askForValidAccountNumber()
+        oAccount = self.accountsDict[accountNumber]
+        self.askForValidPassword(oAccount)
+        return oAccount
+
+    def askForValidPassword(self, oAccount):
+        password = input('Please enter your password: ')
+        oAccount.checkPasswordMatch(password)
+    
+    def createAccount(self, theName, theStartingAmount, thePassword):
+        oAccount = Account(theName, theStartingAmount, thePassword)
+        newAccountNumber = self.nextAccountNumber
+        self.accountsDict[newAccountNumber] = oAccount
+        # Increment to prepare for next account to be created
+        self.nextAccountNumber = self.nextAccountNumber + 1
+        return newAccountNumber
+
+    def openAccount(self):
+        print('*** Open Account ***')
+        userName = input('What is your name? ')
+        userStartingAmount = input('How much money to start your account ? ')
+        userPassword = input('What password would you like to use for this account? ')
+        userAccountNumber = self.createAccount(userName, userStartingAmount, userPassword)
+        print('Your new account number is:', userAccountNumber)
+
+    def closeAccount(self):
+        print('*** Close Account ***')
+        userAccountNumber = self.askForValidAccountNumber()
+        oAccount = self.accountsDict[userAccountNumber]
+        self.askForValidPassword(oAccount)
+        theBalance = oAccount.getBalance()
+        print('You had', theBalance, 'in your account, which is being returned to you.')
+        del self.accountsDict[userAccountNumber]
+        print('Your account is now closed.')
+
+    def balance(self):
+        print('*** Get Balance ***')
+        oAccount = self.getUsersAccount()
+        theBalance = oAccount.getBalance()
+        print('Your balance is:', theBalance)
+
+    def deposit(self):
+        print('*** Deposit ***')
+        oAccount = self.getUsersAccount()
+        depositAmount = input('Please enter amount to deposit: ')
+        theBalance = oAccount.deposit(depositAmount)
+        print('Deposited:', depositAmount)
+        print('Your new balance is:', theBalance)
+
+    def withdraw(self):
+        print('*** Withdraw ***')
+        oAccount = self.getUsersAccount()
+        userAmount = input('Please enter the amount to withdraw: ')
+        theBalance = oAccount.withdraw(userAmount)
+        print('Withdrew:', userAmount)
+        print('Your new balance is:', theBalance)
+
+    def getInfo(self):
+        print('Hours:', self.hours)
+        print('Address:', self.address)
+        print('Phone:', self.phone)
+        print('We currently have', len(self.accountsDict), 'account(s) open.')
+
+    # Special method for Bank administrator only
+    def show(self):
+        print('*** Show ***')
+        print('(This would typically require an admin password)')
+        for userAccountNumber in self.accountsDict:
+            oAccount = self.accountsDict[userAccountNumber]
+            print('Account:', userAccountNumber)
+            oAccount.show()
+            print()
+
