@@ -22,7 +22,8 @@ pygame.display.set_caption('Demo 2: Animação Simples')
 relogio = pygame.time.Clock()
 
 # Variáveis de animação
-x = 0
+circulo_raio = 30
+x = -circulo_raio
 y = 240
 velocidade = 5
 
@@ -36,14 +37,14 @@ while True:
     
     # Atualizar posição (animação)
     x += velocidade
-    if x > window_width:
-        x = 0
+    if x > window_width + circulo_raio:
+        x = -circulo_raio
     
     # Limpar a tela
     window.fill(preto)
     
     # Desenhar objeto animado (um círculo vermelho)
-    pygame.draw.circle(window, vermelho, (x, y), 30)
+    pygame.draw.circle(window, vermelho, (x, y), circulo_raio)
     
     # Atualizar a tela
     pygame.display.update()

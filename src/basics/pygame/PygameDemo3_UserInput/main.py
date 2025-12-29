@@ -22,6 +22,7 @@ pygame.display.set_caption('Demo 3: Entrada do Usuário')
 relogio = pygame.time.Clock()
 
 # Variáveis do objeto controlável
+CIRCULO_RAIO = 30
 x = 320
 y = 240
 velocidade = 5
@@ -46,14 +47,14 @@ while True:
         y += velocidade
     
     # Manter o objeto dentro da tela
-    x = max(30, min(x, window_width - 30))
-    y = max(30, min(y, window_height - 30))
+    x = max(CIRCULO_RAIO, min(x, window_width - CIRCULO_RAIO))
+    y = max(CIRCULO_RAIO, min(y, window_height - CIRCULO_RAIO))
     
     # Limpar a tela
     window.fill(preto)
     
     # Desenhar objeto controlável (um círculo azul)
-    pygame.draw.circle(window, azul, (x, y), 30)
+    pygame.draw.circle(window, azul, (x, y), CIRCULO_RAIO)
     
     # Atualizar a tela
     pygame.display.update()

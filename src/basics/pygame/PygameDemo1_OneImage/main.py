@@ -31,8 +31,11 @@ while True:
     # Limpar a tela
     window.fill(preto)
     
-    # Aqui você pode adicionar código para desenhar uma imagem
-    # Por exemplo: window.blit(imagem, (x, y))
+    # Desenhar uma imagem de exemplo (retângulo simulando uma imagem)
+    # Para carregar uma imagem real, use: imagem = pygame.image.load('caminho/imagem.png')
+    # E então desenhe com: window.blit(imagem, (x, y))
+    # Por enquanto, desenhamos um retângulo como placeholder
+    pygame.draw.rect(window, (255, 255, 255), (220, 140, 200, 200))
     
     # Atualizar a tela
     pygame.display.update()
