@@ -120,3 +120,28 @@ frente de B. Este é um mapeamento natural equivalente às camadas em programas 
 conteúdo desse buffer fora da tela e o coloca na janela real.
 """
 
+
+""" Usando pygames rects
+<rect>.x = a coordenada x da borda esquerda do retangulo
+<rect>.y = a coordenada y da borda superior do retangulo
+<rect>.left = a coordenada x da borda esquerda do retangulo
+<rect>.top = a coordenada y da borda superior do retangulo
+<rect>.right = a coordenada x da borda direita do retangulo
+<rect>.bottom = a coordenada y da borda inferior do retangulo
+<rect>.topleft = uma tupla (x, y) da coordenada do canto superior esquerdo do retangulo
+<rect>.bottomleft = uma tupla (x, y) da coordenada do canto inferior esquerdo do retangulo
+<rect>.topright = uma tupla (x, y) da coordenada do canto superior direito do retangulo
+<rect>.bottomright = uma tupla (x, y) da coordenada do canto inferior direito do retangulo
+<rect>.midtop = uma tupla (x, y) da coordenada do meio da borda superior do retangulo
+<rect>.midbottom = uma tupla (x, y) da coordenada do meio da borda inferior do retangulo
+<rect>.midleft = uma tupla (x, y) da coordenada do meio da borda esquerda do retangulo
+<rect>.midright = uma tupla (x, y) da coordenada do meio da borda direita do retangulo
+<rect>.center = uma tupla (x, y) da coordenada do centro do retangulo
+<rect>.centerx = a coordenada x do centro do retangulo
+<rect>.centery = a coordenada y do centro do retangulo
+<rect>.width = a largura do retangulo
+<rect>.height = a altura do retangulo
+<rect>.size = uma tupla (width, height) do tamanho do retangulo
+<rect>.w = a largura do retangulo
+<rect>.h = a altura do retangulo
+"""
